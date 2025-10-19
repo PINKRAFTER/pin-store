@@ -7,3 +7,15 @@ export const SERVER_URL =
   process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000";
 export const LATEST_PRODUCT_LIMIT =
   process.env.NEXT_PUBLIC_LATEST_PRODUCT_LIMIT || 4;
+
+export const SignInDefaultValues = {
+  email: "",
+  password: "",
+};
+
+export const SignUpDefaultValues = {
+  name: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};

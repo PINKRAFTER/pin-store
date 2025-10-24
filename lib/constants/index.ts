@@ -19,3 +19,13 @@ export const SignUpDefaultValues = {
   password: "",
   confirmPassword: "",
 };
+
+export const ShippingAddressDefaultValues = {
+  fullName: "",
+  streetAddress: "",
+  city: "",
+  postalCode: "",
+  country: "India",
+  lat: undefined,
+  lng: undefined,
+};

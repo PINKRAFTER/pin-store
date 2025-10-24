@@ -2,9 +2,9 @@ import { PrismaClient } from "@/lib/generated/prisma";
 import { neonConfig } from "@neondatabase/serverless";
 import { PrismaNeon } from "@prisma/adapter-neon";
 import { WebSocket } from "ws";
-import dotenv from "dotenv";
+// import dotenv from "dotenv";
 
-dotenv.config();
+// dotenv.config();
 neonConfig.webSocketConstructor = WebSocket;
 
 const connectionString = process.env.DATABASE_URL as string;

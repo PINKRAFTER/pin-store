@@ -11,9 +11,6 @@ import { auth } from "@/auth";
 import { prisma } from "@/db/prisma";
 import { cartItemSchema, insertCartItemsSchema } from "../validators";
 import { revalidatePath } from "next/cache";
-import { PrismaClient } from "@prisma/client";
-import { Prisma } from "../generated/prisma/client";
-import { success } from "zod";
 
 // Calculate cart prices:
 const calculateCartPrices = (items: CartItem[]) => {
@@ -145,15 +142,17 @@ export async function getMyCart() {
   const userId = session?.user?.id ? (session.user.id as string) : undefined;
 
   // Get user cart from database
-  const query = userId ? { userId: userId } : { sessionCartId: sessionCartId };
+  // const query = userId ? { userId: userId } : { sessionCartId: sessionCartId };
 
   const cart = await prisma.cart.findFirst({
-    where: query,
+    where: userId ? { userId: userId } : { sessionCartId: sessionCartId },
   });
 
   if (!cart) {
     return undefined;
   }
+
+  // console.log("Fetched cart:", cart);
 
   return convertToObject({
     ...cart,

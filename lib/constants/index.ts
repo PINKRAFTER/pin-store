@@ -29,3 +29,33 @@ export const ShippingAddressDefaultValues = {
   lat: undefined,
   lng: undefined,
 };
+
+export const PAYMENT_METHODS = process.env.PAYMENT_METHODS
+  ? process.env.PAYMENT_METHODS.split(",").map((method) => method.trim())
+  : ["Razorpay", "Stripe", "Cash on Delivery"];
+
+export const DEFAULT_PAYMENT_METHOD =
+  process.env.DEFAULT_PAYMENT_METHOD || "Razorpay";
+
+export const PAGE_SIZE = Number(process.env.PAGE_SIZE) || 10;
+
+export const productDefaultValues = {
+  name: "",
+  slug: "",
+  category: "",
+  images: [],
+  brand: "",
+  description: "",
+  price: "0",
+  stock: 0,
+  rating: "0",
+  numReviews: "0",
+  isFeatured: false,
+  banner: null,
+};
+
+export const USER_ROLES = process.env.USER_ROLES
+  ? process.env.USER_ROLES.split(",").map((role) => role.trim())
+  : ["user", "admin"];
+
+export const DEFAULT_USER_ROLE = "user";

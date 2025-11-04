@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { formatNumberWithDecimalPlaces } from "./utils";
+import { PAYMENT_METHODS } from "./constants";
 
 const currency = z
   .string()
@@ -23,6 +24,11 @@ export const insertProductSchema = z.object({
   isFeatured: z.boolean(),
   banner: z.string().nullable(),
   price: currency,
+});
+
+// Schema for updating products
+export const updateProductSchema = insertProductSchema.extend({
+  id: z.string().min(1, "Product ID is required"),
 });
 
 // Schema for Sigin in user
@@ -84,4 +90,58 @@ export const shippingAddressSchema = z.object({
   country: z.string().min(2, "Country is required with minimum 2 characters"),
   lat: z.number().optional(),
   lng: z.number().optional(),
+});
+
+// Schema for Order Payment Method
+export const paymentMethodSchema = z
+  .object({
+    type: z.string().min(1, "Payment method is required"),
+  })
+  .refine((data) => PAYMENT_METHODS.includes(data.type), {
+    message: "Invalid payment method",
+    path: ["type"],
+  });
+
+// Schema for inserting order
+export const insertOrderSchema = z.object({
+  userId: z.string().min(1, "User ID is required"),
+  itemsPrice: currency,
+  taxPrice: currency,
+  shippingPrice: currency,
+  totalPrice: currency,
+  paymentMethod: z.string().refine((data) => PAYMENT_METHODS.includes(data), {
+    message: "Invalid payment method",
+    path: ["paymentMethod"],
+  }),
+  shippingAddress: shippingAddressSchema,
+});
+
+// Schema for inserting order item:
+export const insertOrderItemSchema = z.object({
+  productId: z.string(),
+  slug: z.string(),
+  image: z.string(),
+  name: z.string(),
+  quantity: z.number().int().nonnegative(),
+  price: currency,
+});
+
+// Schema for Payment Result
+export const paymentResultSchema = z.object({
+  id: z.string(),
+  status: z.string(),
+  email_address: z.string(),
+  pricePaid: z.string(),
+});
+
+// Schema for updating user profile
+export const updateUserProfileSchema = z.object({
+  name: z.string().min(3, "Name is required with minimum 3 characters"),
+  email: z.email("Invalid email address"),
+});
+
+// Schema for updating user
+export const updateUserSchema = updateUserProfileSchema.extend({
+  id: z.string().min(1, "User ID is required"),
+  role: z.string().min(1, "Role is required"),
 });

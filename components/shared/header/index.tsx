@@ -3,13 +3,16 @@ import Image from "next/image";
 import Link from "next/link";
 import logo from "@/public/images/logo.svg";
 import Menu from "./menu";
+import CategoryDrawer from "./category-drawer";
+import Search from "./search";
 
 const Header = () => {
   return (
     <header className="w-full border-b">
-      <div className="wrapper h-16 flex items-center justify-between">
-        <div className="flex items-center">
-          <Link href="/" className="flex items-center">
+      <div className="wrapper flex-between">
+        <div className="flex-start">
+          <CategoryDrawer />
+          <Link href="/" className="flex-start ml-4">
             <Image
               src={logo}
               alt={`${APP_NAME} Logo`}
@@ -21,6 +24,9 @@ const Header = () => {
               {APP_NAME}
             </span>
           </Link>
+        </div>
+        <div className="hidden md:block">
+          <Search />
         </div>
         <Menu />
       </div>

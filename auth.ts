@@ -50,6 +50,7 @@ export const config = {
     }),
   ],
   callbacks: {
+    ...authConfig.callbacks,
     async session({ session, user, trigger, token }: any) {
       session.user.id = token.sub;
       session.user.role = token.role;
@@ -106,7 +107,6 @@ export const config = {
       }
       return token;
     },
-    ...authConfig.callbacks,
   },
 };
 

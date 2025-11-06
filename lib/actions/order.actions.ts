@@ -7,13 +7,13 @@ import { getUserById } from "./user.actions";
 import { getMyCart } from "./cart.actions";
 import { insertOrderSchema } from "../validators";
 import { prisma } from "@/db/prisma";
-import { CartItem, PaymentResult } from "@/types";
+import { CartItem, PaymentResult, ShippingAddress } from "@/types";
 // import { paypal } from "../paypal";
 import { razorpay } from "../razorpay";
 import { revalidatePath } from "next/cache";
 import { PAGE_SIZE } from "../constants";
 import { Prisma } from "../generated/prisma";
-import { ca } from "zod/v4/locales";
+import { sendPurchaseReceipt } from "@/email";
 
 type SalesDataType = {
   month: string;
@@ -278,6 +278,14 @@ async function updateOrderPaymentStatus(
   });
 
   if (!updatedOrder) throw new Error("Failed to retrieve updated order");
+
+  sendPurchaseReceipt({
+    order: {
+      ...updatedOrder,
+      shippingAddress: updatedOrder.shippingAddress as ShippingAddress,
+      paymentResult: updatedOrder.paymentResult as PaymentResult,
+    } as any,
+  });
 }
 
 // Get user's orders

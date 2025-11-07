@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
     const { object } = event.data;
 
     // Update the order status to paid
-    await updateOrderPaymentStatus(object.metadata.orderId, {
+    await updateOrderPaymentStatus(object.metadata.order_id, {
       id: object.id,
       status: "COMPLETED",
       email_address: object.billing_details.email!,

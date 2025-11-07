@@ -11,7 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
-import { Order, OrderItem } from "@/types";
+import { OrderItem } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import { RazorpayOrderOptions, useRazorpay } from "react-razorpay";
@@ -25,13 +25,16 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState, useTransition } from "react";
 import { APP_DESCRIPTION, COMPANY_NAME } from "@/lib/constants";
+import StripePayment from "./stripe-payment";
 
 const OrderDetailsTable = ({
   order,
+  stripeClientSecret,
   razorpayClientId,
   isAdmin,
 }: {
   order: any;
+  stripeClientSecret: string | null;
   razorpayClientId: string;
   isAdmin: boolean;
 }) => {
@@ -285,6 +288,15 @@ const OrderDetailsTable = ({
                     <RazorpayButton />
                   </RazorpayScriptProvider>
                 </div>
+              )}
+
+              {/* Stripe Payment */}
+              {!isPaid && paymentMethod === "Stripe" && stripeClientSecret && (
+                <StripePayment
+                  priceInCents={Number(order.totalPrice) * 100}
+                  orderId={order.id}
+                  stripeClientSecret={stripeClientSecret}
+                />
               )}
 
               {/* Cash On Delivery */}

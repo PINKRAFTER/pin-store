@@ -228,7 +228,7 @@ export async function approveRazorpayPayment(
 }
 
 // Update order payment status in database
-async function updateOrderPaymentStatus(
+export async function updateOrderPaymentStatus(
   orderId: string,
   paymentResult?: PaymentResult
 ) {

@@ -17,6 +17,7 @@ import { z } from "zod";
 import { PAGE_SIZE } from "../constants";
 import { revalidatePath } from "next/cache";
 import { Prisma } from "../generated/prisma";
+import { getMyCart } from "./cart.actions";
 
 // Sign in the user with credentials
 export async function signInWithCredentials(
@@ -47,6 +48,14 @@ export async function signInWithCredentials(
 
 // Sign out the user
 export async function signOutUser() {
+  const currentCart = await getMyCart();
+
+  if (currentCart) {
+    await prisma.cart.delete({
+      where: { id: currentCart.id },
+    });
+  }
+
   await signOut();
 }
 

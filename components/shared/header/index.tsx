@@ -12,7 +12,7 @@ const Header = () => {
       <div className="wrapper flex-between">
         <div className="flex-start">
           <CategoryDrawer />
-          <Link href="/" className="flex-start ml-4">
+          <Link href="/" className="flex-start ml-2 md:mr-1">
             <Image
               src={logo}
               alt={`${APP_NAME} Logo`}
